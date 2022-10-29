@@ -12,6 +12,24 @@ import UserCollection from '../user/collection';
  * and contains all the information in Freet. https://mongoosejs.com/docs/typescript.html
  */
 class FreetCollection {
+  
+  static async populateFreet(freet: HydratedDocument<Freet>) {
+    await freet.populate([
+      {
+        path: 'intent',
+        populate: {path: 'freetId'}
+      },
+      {
+        path: 'tags',
+        populate: {path: 'freetId'}
+      },
+      {
+        path: 'suggestions',
+        populate: {path: 'freetId'}
+      }
+    ]);
+  }
+
   /**
    * Add a freet to the collection
    *
@@ -61,6 +79,18 @@ class FreetCollection {
     const author = await UserCollection.findOneByUsername(username);
     return FreetModel.find({authorId: author._id}).sort({dateModified: -1}).populate('authorId');
   }
+
+    /**
+   * Get all the freets in by given author
+   *
+   * @param {string} uid - The uid
+   * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of the freets
+   */
+     static async findAllByUserId(uid: string): Promise<Array<HydratedDocument<Freet>>> {
+      const freets = await FreetModel.find({authorId: uid});
+      await Promise.all(freets.map(this.populateFreet));
+      return freets;
+    }
 
   /**
    * Update a freet with the new content
