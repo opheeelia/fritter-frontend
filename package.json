@@ -54,9 +54,7 @@
                 "files": [
                     "**/*.ts"
                 ],
-                "excludedFiles": [
-                    "client/**"
-                ],
+                "excludedFiles": ["client/**"],
                 "extends": [
                     "xo",
                     "xo-typescript/space",

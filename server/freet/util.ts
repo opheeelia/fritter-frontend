@@ -1,18 +1,14 @@
 import type {HydratedDocument} from 'mongoose';
 import moment from 'moment';
-import type {Freet} from '../freet/model';
+import type {Freet, PopulatedFreet} from '../freet/model';
 
 // Update this if you add a property to the Freet type!
 type FreetResponse = {
   _id: string;
-  authorId: string;
+  author: string;
   dateCreated: string;
   content: string;
   dateModified: string;
-  views: number;
-  // intent: string;
-  // tags: string[];
-  // suggestions: string[];
 };
 
 /**
@@ -31,21 +27,19 @@ const formatDate = (date: Date): string => moment(date).format('MMMM Do YYYY, h:
  * @returns {FreetResponse} - The freet object formatted for the frontend
  */
 const constructFreetResponse = (freet: HydratedDocument<Freet>): FreetResponse => {
-  const freetCopy: Freet = {
+  const freetCopy: PopulatedFreet = {
     ...freet.toObject({
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
-
+  const {username} = freetCopy.authorId;
+  delete freetCopy.authorId;
   return {
     ...freetCopy,
     _id: freetCopy._id.toString(),
-    authorId: freetCopy.authorId.toString(),
+    author: username,
     dateCreated: formatDate(freet.dateCreated),
-    dateModified: formatDate(freet.dateModified),
-    // intent: freetCopy.intent.toString(),
-    // tags: freetCopy.tags.map((s) => s.toString()),
-    // suggestions: freetCopy.suggestions.map((s) => s.toString()),
+    dateModified: formatDate(freet.dateModified)
   };
 };
 

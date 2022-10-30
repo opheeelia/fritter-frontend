@@ -20,6 +20,7 @@ export default {
         }
 
         this.$store.commit('updateFilter', this.value);
+        console.log((res[0].authorId));
         this.$store.commit('updateFreets', res);
       } catch (e) {
         if (this.value === this.$store.state.filter) {

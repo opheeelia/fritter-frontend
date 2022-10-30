@@ -12,7 +12,6 @@ import UserCollection from '../user/collection';
  * and contains all the information in Freet. https://mongoosejs.com/docs/typescript.html
  */
 class FreetCollection {
-  
   static async populateFreet(freet: HydratedDocument<Freet>) {
     await freet.populate([
       {
@@ -29,7 +28,7 @@ class FreetCollection {
       }
     ]);
   }
-
+  
   /**
    * Add a freet to the collection
    *
