@@ -19,8 +19,17 @@ export default {
           throw new Error(res.error);
         }
 
+        for (let i in res){
+          const r_intent = await fetch(`/api/intent/${res[i]._id}`);
+          const res_intent = await r_intent.json();
+          if (!r_intent.ok) {
+            throw new Error(res_intent.error);
+          }
+          res[i].intent = res_intent;
+        }
+
         this.$store.commit('updateFilter', this.value);
-        console.log((res[0].authorId));
+        // console.log((res[0].authorId));
         this.$store.commit('updateFreets', res);
       } catch (e) {
         if (this.value === this.$store.state.filter) {

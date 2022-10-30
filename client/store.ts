@@ -51,6 +51,14 @@ const store = new Vuex.Store({
        */
       const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
       const res = await fetch(url).then(async r => r.json());
+      for (let i in res){
+        const r_intent = await fetch(`/api/intent/${res[i]._id}`);
+        const res_intent = await r_intent.json();
+        if (!r_intent.ok) {
+          throw new Error(res_intent.error);
+        }
+        res[i].intent = res_intent;
+      }
       state.freets = res;
     }
   },

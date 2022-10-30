@@ -133,6 +133,7 @@ export default {
         }
 
         if (this.refreshFreets) {
+          console.log("should be refreshing");
           this.$store.commit('refreshFreets');
         }
 

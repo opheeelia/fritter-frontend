@@ -35,6 +35,7 @@
           🗑️ Delete
         </button>
       </div>
+      <div>Intent: {{freet.intent.intent}}</div>
     </header>
     <textarea
       v-if="editing"
