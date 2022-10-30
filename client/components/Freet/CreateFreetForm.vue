@@ -6,17 +6,6 @@
     <article
       v-if="fields.length"
     >
-      <div>
-        <label for="freet-intent">Intent:</label>
-        <select name="freet-intent" id="freet-intent">
-          <option 
-              v-for="option in options"
-              :value="option.value"
-          >
-            {{option.value}}
-          </option>
-        </select>
-      </div>
       <div
         v-for="field in fields"
         :key="field.id"
@@ -28,6 +17,19 @@
           :value="field.value"
           @input="field.value = $event.target.value"
         />
+        <select 
+          v-else-if="field.id === 'intent'"
+          :name="field.id"
+          v-model="field.value"
+          @input="field.value = $event.target.value"
+        >
+          <option 
+              v-for="option in field.options"
+              :value="option"
+          >
+            {{option}}
+          </option>
+        </select>
         <input
           v-else
           :type="field.id === 'password' ? 'password' : 'text'"
@@ -70,12 +72,9 @@ export default {
       method: 'POST',
       hasBody: true,
       fields: [
-        {id: 'content', label: 'Content', value: ''}
-      ],
-      options: [
-        {value: 'Share'},
-        {value: 'Inform'},
-        {value: 'Joke'}
+        {id: 'intent', label: 'Intent', value: 'Share', defaultVal: 'Share', options: ['Share', 'Joke', 'Inform']},
+        {id: 'supplement', label: 'Supplemental Link', value: '', defaultVal: ''},
+        {id: 'content', label: 'Content', value: '', defaultVal: ''},
       ],
       title: 'Create a freet',
       refreshFreets: true,
@@ -102,18 +101,29 @@ export default {
         options.body = JSON.stringify(Object.fromEntries(
           this.fields.map(field => {
             const {id, value} = field;
-            field.value = '';
+            field.value = field.defaultVal;
             return [id, value];
           })
         ));
       }
 
       try {
-        const r = await fetch(this.url, options);
+        var r = await fetch(this.url, options);
         if (!r.ok) {
           // If response is not okay, we throw an error and enter the catch block
           const res = await r.json();
           throw new Error(res.error);
+        } else {
+          // Create intent 
+          var res = await r.json();
+          const freetId = res.freet._id;
+          r = await fetch(`/api/intent/${freetId}`, options);
+          if (!r.ok) {
+            res = await r.json();
+            options.method = 'DELETE';
+            r = await fetch(`/api/freets/${freetId}`, options);
+            throw new Error(res.error);
+          }
         }
 
         if (this.setUsername) {
@@ -133,7 +143,7 @@ export default {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
-    }
+    },
   }
 };
 </script>

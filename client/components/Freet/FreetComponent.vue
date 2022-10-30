@@ -96,7 +96,7 @@ export default {
       this.editing = false;
       this.draft = this.freet.content;
     },
-    deleteFreet() {
+    async deleteFreet() {
       /**
        * Deletes this freet.
        */
@@ -108,6 +108,20 @@ export default {
           });
         }
       };
+      // delete associated intention
+      const options = {
+        method: params.method, headers: {'Content-Type': 'application/json'}
+      };
+      try {
+        const r = await fetch(`/api/intent/${this.freet._id}`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
       this.request(params);
     },
     submitEdit() {

@@ -11,9 +11,7 @@ import {IntentType} from './util';
   const intent = validFormat ? await IntentCollection.findOne(req.params.freetId) : '';
   if (intent) {
     res.status(404).json({
-      error: {
-        intentNotFound: `Intent with freet ID ${req.params.freetId} already exists.`
-      }
+      error: `Intent with freet ID ${req.params.freetId} already exists.`
     });
     return;
   }
@@ -29,9 +27,7 @@ import {IntentType} from './util';
   const intent = validFormat ? await IntentCollection.findOne(req.params.freetId) : '';
   if (!intent) {
     res.status(404).json({
-      error: {
-        intentNotFound: `Intent with freet ID ${req.params.freetId} does not exist.`
-      }
+      error: `Intent with freet ID ${req.params.freetId} does not exist.`
     });
     return;
   }
@@ -45,9 +41,7 @@ import {IntentType} from './util';
 const isValidIntent = async (req: Request, res: Response, next: NextFunction) => {
   if (!(req.body.intent in IntentType)) {
     res.status(404).json({
-      error: {
-        invalidIntent: `${req.body.intent} is not a valid intent`
-      }
+      error: `${req.body.intent} is not a valid intent`
     });
     return;
   }
@@ -61,9 +55,7 @@ const isValidSupplement = (req: Request, res: Response, next: NextFunction) => {
   if (!req.body.supplement) {
     if (req.body.intent == IntentType.Inform) {
       res.status(400).json({
-        error: {
-          invalidIntent: 'Informing freets must be accompanied by a source link supplement.'
-        }
+        error: 'Informing freets must be accompanied by a source link supplement.'
       });
       return;
     }
