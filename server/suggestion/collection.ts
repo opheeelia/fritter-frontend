@@ -68,8 +68,16 @@ class SuggestionCollection {
    * Get the top X most popular suggestions for a freet for a specific type
    */
   static async findAllByType(suggestionType: string, freetId: Types.ObjectId | string): Promise<Array<HydratedDocument<Suggestion>>> {
-    // return SuggestionModel.aggregate([{$match: {suggestionType}}, {"$group":{_id:"$suggestion", count:{$sum:1}}}]);
-    return await SuggestionModel.aggregate([{$match: {suggestionType: suggestionType as SuggestionType, freetId: new Types.ObjectId(freetId)}}, {$sortByCount: "$suggestion"}]);
+    return SuggestionModel.aggregate([
+      {$match: {suggestionType: suggestionType as SuggestionType, freetId: new Types.ObjectId(freetId)}},
+      {"$group":
+        {_id: {
+          suggestion: "$suggestion",
+          suggestionType: "$suggestionType"
+        },
+        count:{$sum:1}
+      }}
+    ]);
   }
 
   /**

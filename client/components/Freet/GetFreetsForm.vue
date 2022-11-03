@@ -26,6 +26,13 @@ export default {
             throw new Error(res_intent.error);
           }
           res[i].intent = res_intent;
+          const r_suggestions = await fetch(`api/suggestions/${res[i]._id}`);
+          const res_suggestions = await r_suggestions.json();
+          // console.log(res_suggestions.suggestions);
+          if (!r_suggestions.ok){
+            throw new Error(res_intent.error);
+          }
+          res[i].suggestions = res_suggestions.suggestions;
         }
 
         this.$store.commit('updateFilter', this.value);

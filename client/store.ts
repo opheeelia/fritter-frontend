@@ -58,6 +58,12 @@ const store = new Vuex.Store({
           throw new Error(res_intent.error);
         }
         res[i].intent = res_intent;
+        const r_suggestions = await fetch(`api/suggestions/${res[i]._id}`);
+        const res_suggestions = await r_suggestions.json();
+        if (!r_suggestions.ok){
+          throw new Error(res_intent.error);
+        }
+        res[i].suggestions = res_suggestions.suggestions;
       }
       state.freets = res;
     }

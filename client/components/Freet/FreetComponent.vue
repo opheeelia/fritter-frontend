@@ -46,7 +46,12 @@
           :bodyProps="freet"
         />
       </div>
-      <div>Intent: {{freet.intent.intent}}</div>
+      <div class="info">
+        <div>Intent: {{freet.intent.intent}}</div>
+        <div>Suggestions: {{tagSugs}}</div>
+        <div>Suggestions: {{intentSugs}}</div>
+        <div>Suggestions: {{supplementSugs}}</div>
+      </div>
     </header>
     <textarea
       v-if="editing"
@@ -92,11 +97,27 @@ export default {
     }
   },
   data() {
+    const tag_sugs = [];
+    const intent_sugs = [];
+    const supplement_sugs = [];
+    for (let sug of this.freet.suggestions) {
+      const content = sug._id.suggestion;
+      if (sug._id.suggestionType == "Tag"){
+        tag_sugs.push(content);
+      } else if (sug._id.suggestionType == "Intent") {
+        intent_sugs.push(content);
+      } else if (sug._id.suggestionType == "Supplement") {
+        supplement_sugs.push(content);
+      }
+    }
     return {
       editing: false, // Whether or not this freet is in edit mode
       draft: this.freet.content, // Potentially-new content for this freet
       alerts: {}, // Displays success/error messages encountered during freet modification
-      SuggestionForm: SuggestionForm
+      SuggestionForm: SuggestionForm,
+      tagSugs: tag_sugs,
+      intentSugs: intent_sugs,
+      supplementSugs: supplement_sugs
     };
   },
   methods: {
