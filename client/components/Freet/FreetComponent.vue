@@ -43,6 +43,7 @@
           :title="'Make a suggestion'"
           :body="SuggestionForm"
           :footer="''"
+          :bodyProps="freet"
         />
       </div>
       <div>Intent: {{freet.intent.intent}}</div>

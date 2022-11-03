@@ -5,21 +5,27 @@ import BlockForm from '@/components/common/BlockForm.vue';
 export default {
   name: 'SuggestionForm',
   mixins: [BlockForm],
+  props: {
+    _id: {
+        type: [String],
+        default: 'none',
+    }
+  },
   data() {
     /**
      * Options for submitting this form.
      */
     return {
-      url: `/api/suggestions/${this.freet}`,
+      url: `/api/suggestions/${this._id}`,
       method: 'POST',
       hasBody: true,
       fields: [
-        {id: 'intent', label: 'Intent', value: 'Share', defaultVal: 'Share', options: ['Share', 'Joke', 'Inform']},
-        {id: 'supplement', label: 'Supplemental Link', value: '', defaultVal: ''},
-        {id: 'content', label: 'Tags', value: '', defaultVal: ''},
+        {id: 'intent', label: 'Alternative Intent', value: '', defaultVal: '', options: ['Share', 'Joke', 'Inform']},
+        {id: 'supplement', label: 'Alternative Supplemental Link', value: '', defaultVal: ''},
+        {id: 'tag', label: 'Additional Tags', value: '', defaultVal: ''},
       ],
       title: 'Make a suggestion',
-      refreshFreets: true,
+      refreshFreets: false,
       alerts: {}, // Displays success/error messages encountered during form submission
       callback: () => {
         const message = 'Successfully made a suggestion';
@@ -33,40 +39,45 @@ export default {
       /**
         * Submits a form with the specified options from data().
         */
-      const options = {
-        method: this.method,
-        headers: {'Content-Type': 'application/json'},
-        credentials: 'same-origin' // Sends express-session credentials with request
-      };
-      if (this.hasBody) {
-        options.body = JSON.stringify(Object.fromEntries(
-          this.fields.map(field => {
-            const {id, value} = field;
-            field.value = field.defaultVal;
-            return [id, value];
-          })
-        ));
+      
+      for (let field of this.fields){
+        if (field.value !== '') {
+          const options = {
+            method: this.method,
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'same-origin' // Sends express-session credentials with request
+          };
+          for (let item of field.value.split(",")){
+            options.body = JSON.stringify({
+              suggestionType: field.id.charAt(0).toUpperCase() + field.id.slice(1),
+              suggestion: field.value,
+            })
+            console.log(options.body);
+            try {
+              var r = await fetch(this.url, options);
+              if (!r.ok) {
+                // If response is not okay, we throw an error and enter the catch block
+                const res = await r.json();
+                throw new Error(res.error);
+              }
+      
+              if (this.refreshFreets) {
+                this.$store.commit('refreshFreets');
+              }
+      
+              if (this.callback) {
+                this.callback();
+              }
+            } catch (e) {
+              this.$set(this.alerts, e, 'error');
+              setTimeout(() => this.$delete(this.alerts, e), 3000);
+            }
+          }
+        }
       }
 
-      try {
-        var r = await fetch(this.url, options);
-        if (!r.ok) {
-          // If response is not okay, we throw an error and enter the catch block
-          const res = await r.json();
-          throw new Error(res.error);
-        }
-
-        if (this.refreshFreets) {
-          this.$store.commit('refreshFreets');
-        }
-
-        if (this.callback) {
-          this.callback();
-        }
-      } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
-      }
+      // close modal window
+      this.$emit('onSubmit')
     },
   }
 };

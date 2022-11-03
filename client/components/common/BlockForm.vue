@@ -18,6 +18,12 @@
           :value="field.value"
           @input="field.value = $event.target.value"
         />
+        <textarea
+          v-else-if="field.id === 'tag'"
+          :name="field.id"
+          :value="field.value"
+          @input="field.value = $event.target.value"
+        />
         <select 
           v-else-if="field.id === 'intent'"
           :name="field.id"

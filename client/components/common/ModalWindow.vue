@@ -18,7 +18,7 @@
         
                     <div class="modal-body">
                     <slot name="body">
-                        <component v-bind:is="body"></component>
+                        <component v-bind:is="body" v-bind="bodyProps" @onSubmit="close"></component>
                     </slot>
                     </div>
         
@@ -50,10 +50,19 @@ export default {
             type: [String, Object],
             default: 'div',
         },
+        bodyProps: {
+            type: [String, Object],
+            default: 'div',
+        }
     },
     data(){
         return {
             showModal: false,
+        }
+    },
+    methods: {
+        close(){
+            this.showModal = false;
         }
     }
 }

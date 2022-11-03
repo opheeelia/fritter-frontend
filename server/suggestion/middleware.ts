@@ -26,9 +26,7 @@ const isSuggestionExist = async (req: Request, res: Response, next: NextFunction
     const suggestion = await SuggestionCollection.findOne(req.body.suggestion, req.body.suggestionType, req.session.userId, req.params.freetId);
     if (suggestion) {
         res.status(400).json({
-        error: {
-            suggestionAlreadyxists: `Suggestion ${req.body.suggestion} of freet ID ${req.params.freetId} already exists.`
-        }
+        error: `Suggestion ${req.body.suggestion} of freet ID ${req.params.freetId} already exists.`
         });
         return;
     }
@@ -40,26 +38,22 @@ const isSuggestionExist = async (req: Request, res: Response, next: NextFunction
  */
 const isValidSuggestion = (req: Request, res: Response, next: NextFunction) => {
     if (req.body.suggestionType in SuggestionType){
-        if (req.body.suggestionType == SuggestionType.Tag) {
+        if (req.body.suggestionType.toLowerCase() == SuggestionType.Tag.toLowerCase()) {
             const pattern = new RegExp("^[\\w]+$");
             if (!pattern.test(req.body.suggestion)) {
                 res.status(400).json({
-                error: {
-                    invalidSuggestion: 'Labels must contain only upper and lower case letters, or underscores and must be non-empty'
-                }
+                error: 'Labels must contain only upper and lower case letters, or underscores and must be non-empty'
                 });
                 return;
             }
-        } else if (req.body.suggestionType == SuggestionType.Intent) {
+        } else if (req.body.suggestionType.toLowerCase() == SuggestionType.Intent.toLowerCase()) {
             if (!(req.body.suggestion in IntentType)) {
                 res.status(400).json({
-                    error: {
-                        invalidSuggestion: `${req.body.suggestion} is not a valid intent.`
-                    }
+                    error: `${req.body.suggestion} is not a valid intent.`
                 });
                 return;
             }
-        } else if (req.body.suggestionType == SuggestionType.Supplement) {
+        } else if (req.body.suggestionType.toLowerCase() == SuggestionType.Supplement.toLowerCase()) {
             const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
             '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
             '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
