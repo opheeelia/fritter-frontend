@@ -18,6 +18,19 @@
           :value="field.value"
           @input="field.value = $event.target.value"
         />
+        <select 
+          v-else-if="field.id === 'intent'"
+          :name="field.id"
+          v-model="field.value"
+          @input="field.value = $event.target.value"
+        >
+          <option 
+              v-for="option in field.options"
+              :value="option"
+          >
+            {{option}}
+          </option>
+        </select>
         <input
           v-else
           :type="field.id === 'password' ? 'password' : 'text'"
@@ -48,7 +61,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'BlockForm',
   data() {

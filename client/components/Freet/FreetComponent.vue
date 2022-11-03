@@ -35,6 +35,16 @@
           🗑️ Delete
         </button>
       </div>
+      <div 
+        v-else
+        class="actions"
+      >
+        <ModalWindow
+          :title="'Make a suggestion'"
+          :body="SuggestionForm"
+          :footer="''"
+        />
+      </div>
       <div>Intent: {{freet.intent.intent}}</div>
     </header>
     <textarea
@@ -66,8 +76,13 @@
 </template>
 
 <script>
+import ModalWindow from '@/components/common/ModalWindow.vue';
+import SuggestionForm from '@/components/Suggestions/SuggestionForm.vue';
+
+
 export default {
   name: 'FreetComponent',
+  components: {ModalWindow, SuggestionForm},
   props: {
     // Data from the stored freet
     freet: {
@@ -79,7 +94,8 @@ export default {
     return {
       editing: false, // Whether or not this freet is in edit mode
       draft: this.freet.content, // Potentially-new content for this freet
-      alerts: {} // Displays success/error messages encountered during freet modification
+      alerts: {}, // Displays success/error messages encountered during freet modification
+      SuggestionForm: SuggestionForm
     };
   },
   methods: {
