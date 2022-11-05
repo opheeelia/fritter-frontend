@@ -79,6 +79,9 @@ router.post(
     userValidator.isUserLoggedIn,
   ],
   async (req: Request, res: Response) => {
+    // validate each includes
+    
+
     const filter = await FilterCollection.addOne(
       req.body.name,
       req.session.userId,

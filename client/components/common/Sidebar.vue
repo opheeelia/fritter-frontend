@@ -8,15 +8,15 @@
       >
         Filters
       </router-link>
-      <router-link
-        v-if="$store.state.username"
+      <button
+        v-if="$store.state.customFilters"
         v-for="filter in $store.state.customFilters"
         :key="filter.name"
         class="custom-filter"
-        to=""
+        @click="applyFilter(filter._id)"
       >
         {{filter.name}}
-      </router-link>
+      </button>
     </div>
     <section class="alerts">
       <article
@@ -29,6 +29,19 @@
     </section>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'Sidebar',
+  methods: {
+    applyFilter(id){
+      console.log(id);
+      this.$store.commit('updateFilter', {type:'filter', value: id});
+      this.$store.commit('refreshFreets');
+    }
+  }
+}
+</script>
 
 <style scoped>
 #sidebar {
