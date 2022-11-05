@@ -1,12 +1,21 @@
 
 <template>
   <div id="sidebar">
-    <div class="right">
+    <div>
       <router-link
         v-if="$store.state.username"
         to="/filters"
       >
         Filters
+      </router-link>
+      <router-link
+        v-if="$store.state.username"
+        v-for="filter in $store.state.customFilters"
+        :key="filter.name"
+        class="custom-filter"
+        to=""
+      >
+        {{filter.name}}
       </router-link>
     </div>
     <section class="alerts">
@@ -36,6 +45,11 @@
     align-items: flex-start;
 }
 
+.custom-filter {
+  display: block;
+  margin: 0.5em 1em;
+}
+
 .title {
     font-size: 32px;
     margin: 0 5px;
@@ -52,7 +66,7 @@ img {
 
 .right {
     font-size: 20px;
-    display: grid;
+    display: inline;
     gap: 16px;
     grid-auto-flow: column;
     align-items: center;

@@ -9,8 +9,9 @@ Vue.use(Vuex);
  */
 const store = new Vuex.Store({
   state: {
-    filter: null, // Username to filter shown freets by (null = show all)
+    filter: {type: "username", value: null}, // {type: , value:} (null = show all)
     freets: [], // All freets created in the app
+    customFilters: [],
     username: null, // Username of the logged in user
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
@@ -73,6 +74,21 @@ const store = new Vuex.Store({
         res[i].suggestions = res_suggestions.suggestions;
       }
       state.freets = res;
+    },
+    async refreshCustomFilters(state){
+      if (state.username !== null) {
+        const url = '/api/filters/mine';
+        try {
+          const r = await fetch(url);
+          const res = await r.json();
+          if (!r.ok) {
+            throw new Error(res.error);
+          }
+          state.customFilters = res.filters;
+        } catch (e) {
+          throw new Error(e);
+        }
+      }
     }
   },
   // Store data across page refreshes, only discard on browser close

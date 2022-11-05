@@ -26,7 +26,7 @@
         <div class="left">
           <h2>
             Viewing all freets
-            <span v-if="$store.state.filter">
+            <span v-if="$store.state.filter.value">
               by @{{ $store.state.filter.value }}
             </span>
           </h2>

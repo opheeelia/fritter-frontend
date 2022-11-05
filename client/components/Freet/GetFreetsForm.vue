@@ -39,10 +39,10 @@ export default {
         // console.log((res[0].authorId));
         this.$store.commit('updateFreets', res);
       } catch (e) {
-        if (this.value === this.$store.state.filter.value) {
+        if ( this.$store.state.filter && this.value === this.$store.state.filter.value) {
           // This section triggers if you filter to a user but they
           // change their username when you refresh
-          this.$store.commit('updateFilter', null);
+          this.$store.commit('updateFilter', {type: "username", value: null});
           this.value = ''; // Clear filter to show all users' freets
           this.$store.commit('refreshFreets');
         } else {

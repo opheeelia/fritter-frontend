@@ -22,6 +22,7 @@ export default {
     }).then(res => res.json()).then(res => {
       const user = res.user;
       this.$store.commit('setUsername', user ? user.username : null);
+      this.$store.commit('refreshCustomFilters');
     });
 
     // Clear alerts on page refresh
