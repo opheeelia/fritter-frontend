@@ -27,7 +27,7 @@
           <h2>
             Viewing all freets
             <span v-if="$store.state.filter">
-              by @{{ $store.state.filter }}
+              by @{{ $store.state.filter.value }}
             </span>
           </h2>
         </div>

@@ -7,7 +7,7 @@ export default {
   name: 'GetFreetsForm',
   mixins: [InlineForm],
   data() {
-    return {value: this.$store.state.filter};
+    return {value: this.$store.state.filter.value};
   },
   methods: {
     async submit() {
@@ -35,11 +35,11 @@ export default {
           res[i].suggestions = res_suggestions.suggestions;
         }
 
-        this.$store.commit('updateFilter', this.value);
+        this.$store.commit('updateFilter', {type: "username", value: this.value});
         // console.log((res[0].authorId));
         this.$store.commit('updateFreets', res);
       } catch (e) {
-        if (this.value === this.$store.state.filter) {
+        if (this.value === this.$store.state.filter.value) {
           // This section triggers if you filter to a user but they
           // change their username when you refresh
           this.$store.commit('updateFilter', null);
@@ -47,7 +47,7 @@ export default {
           this.$store.commit('refreshFreets');
         } else {
           // Otherwise reset to previous fitler
-          this.value = this.$store.state.filter;
+          this.value = this.$store.state.filter.value;
         }
 
         this.$set(this.alerts, e, 'error');

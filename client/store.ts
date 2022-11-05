@@ -49,7 +49,14 @@ const store = new Vuex.Store({
       /**
        * Request the server for the currently available freets.
        */
-      const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
+      var url = '/api/freets';
+      if (state.filter.type == "username") {
+        url = `/api/users/${state.filter.value}/freets`;
+      } else if (state.filter.type == "filter"){
+        url = `/api/filters/view?filterId=${state.filter.value}}`;
+      } else if (state.filter.type == "tag"){
+        url = `/api/tags/view?tag=${state.filter.value}`;
+      } 
       const res = await fetch(url).then(async r => r.json());
       for (let i in res){
         const r_intent = await fetch(`/api/intent/${res[i]._id}`);

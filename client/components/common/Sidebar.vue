@@ -1,30 +1,12 @@
-<!-- A basic navigation bar component -->
-<!-- Example of a component which is included on all pages (via App.vue) -->
-<!-- This navbar takes advantage of both flex and grid layouts for positioning elements; feel free to redesign as you see fit! -->
 
 <template>
-  <nav>
-    <div class="left">
-      <img src="../../public/logo.svg">
-      <h1 class="title">
-        Fritter
-      </h1>
-    </div>
+  <div id="sidebar">
     <div class="right">
-      <router-link to="/">
-        Home
-      </router-link>
       <router-link
         v-if="$store.state.username"
-        to="/account"
+        to="/filters"
       >
-        Account
-      </router-link>
-      <router-link
-        v-else
-        to="/login"
-      >
-        Login
+        Filters
       </router-link>
     </div>
     <section class="alerts">
@@ -36,16 +18,22 @@
         <p>{{ alert }}</p>
       </article>
     </section>
-  </nav>
+  </div>
 </template>
 
 <style scoped>
-nav {
+#sidebar {
     padding: 1vw 2vw;
     background-color: #ccc;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    height: 100vh;
+    min-width: 10em;
+    float: left;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .title {

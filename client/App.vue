@@ -3,16 +3,18 @@
     <header>
       <NavBar />
     </header>
+    <Sidebar/>
     <router-view />
   </div>
 </template>
 
 <script>
 import NavBar from '@/components/common/NavBar.vue';
+import Sidebar from '@/components/common/Sidebar.vue';
 
 export default {
   name: 'App',
-  components: {NavBar},
+  components: {NavBar, Sidebar},
   beforeCreate() {
     // Sync stored username to current session
     fetch('/api/users/session', {
@@ -43,7 +45,7 @@ body {
 }
 
 main {
-  padding: 0 5em 5em;
+  padding: 0 15em 5em;
 }
 
 .alerts {
