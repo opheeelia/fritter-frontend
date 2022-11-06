@@ -1,16 +1,16 @@
-<!-- Form for creating freets
+<!-- Form for creating freets -->
 <script>
 import BlockForm from '@/components/common/BlockForm.vue';
 
 export default {
-  name: 'CreateFreetForm',
+  name: 'CreateFilterForm',
   mixins: [BlockForm],
   data() {
     /**
      * Options for submitting this form.
      */
     return {
-      url: '/api/freets',
+      url: '/api/filters',
       method: 'POST',
       hasBody: true,
       fields: [
@@ -18,8 +18,7 @@ export default {
         {id: 'supplement', label: 'Supplemental Link', value: '', defaultVal: ''},
         {id: 'content', label: 'Content', value: '', defaultVal: ''},
       ],
-      title: 'Create a freet',
-      refreshFreets: true,
+      title: 'Create a filter',
       setUsername: false, // Whether or not stored username should be updated after form submission
       alerts: {}, // Displays success/error messages encountered during form submission
       callback: () => {
@@ -123,4 +122,4 @@ textarea {
    font-family: inherit;
    font-size: inherit;
 }
-</style> -->
+</style>

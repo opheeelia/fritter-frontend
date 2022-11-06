@@ -39,6 +39,21 @@ router.get(
 );
 
 /**
+ * Get the tags of a freet
+ *
+ * @name GET /api/tags/:freetId
+ *
+ */
+router.get(
+  '/:freetId',
+  async (req: Request, res: Response) => {
+    const freetId = req.params.freetId;
+    const labels = await TagCollection.findAllFreetTags(freetId);
+    res.status(200).json({tags: labels});
+  }
+);
+
+/**
  * Add tags to a freet
  *
  * @name POST /api/tags/:freetId

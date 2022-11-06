@@ -71,13 +71,21 @@ const store = new Vuex.Store({
           const r_suggestions = await fetch(`api/suggestions/${res[i]._id}`);
           const res_suggestions = await r_suggestions.json();
           if (!r_suggestions.ok){
-            throw new Error(res_intent.error);
+            throw new Error(res_suggestions.error);
           }
           res[i].suggestions = res_suggestions.suggestions;
+          const r_tags = await fetch(`api/tags/${res[i]._id}`);
+          const res_tags = await r_tags.json();
+          if (!r_tags.ok){
+            throw new Error(res_tags.error);
+          }
+          res[i].tags = res_tags.tags;
         }
+        console.log(res);
         state.freets = res;
       } catch (e) {
-        throw new Error(e);
+        console.log(e);
+        // throw new Error(e);
       }
     },
     async refreshCustomFilters(state){

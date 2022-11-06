@@ -1,30 +1,17 @@
-<!-- 
 <template>
   <main>
     <section v-if="$store.state.username">
-      <header>
-        <h2>Welcome @{{ $store.state.username }}</h2>
-      </header>
       <CreateFilterForm />
+      <header>
+        <h2>Your filters</h2>
+      </header>
       <section>
-        <header>
-          <div class="left">
-            <h2>
-              Viewing all filters
-              <span v-if="$store.state.filter">
-                by @{{ $store.state.filter }}
-              </span>
-            </h2>
-          </div>
-          <div class="right">
-          </div>
-        </header>
         <section
-          v-if="$store.state.filters.length"
+          v-if="$store.state.customFilters.length"
         >
           <FilterComponent
-            v-for="filter in $store.state.filters"
-            :key="filter.id"
+            v-for="filter in $store.state.customFilters"
+            :key="filter._id"
             :filter="filter"
           />
         </section>
@@ -86,4 +73,4 @@ section .scrollbox {
   padding: 3%;
   overflow-y: scroll;
 }
-</style> -->
+</style>

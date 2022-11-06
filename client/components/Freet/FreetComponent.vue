@@ -51,6 +51,7 @@
         <div>Suggestions: {{tagSugs}}</div>
         <div>Suggestions: {{intentSugs}}</div>
         <div>Suggestions: {{supplementSugs}}</div>
+        <div>Tags: {{tagLabels}}</div>
       </div>
     </header>
     <textarea
@@ -110,6 +111,7 @@ export default {
         supplement_sugs.push(content);
       }
     }
+    const tagLabels = this.freet.tags.map((tag) => tag.tagLabel);
     return {
       editing: false, // Whether or not this freet is in edit mode
       draft: this.freet.content, // Potentially-new content for this freet
@@ -117,7 +119,8 @@ export default {
       SuggestionForm: SuggestionForm,
       tagSugs: tag_sugs,
       intentSugs: intent_sugs,
-      supplementSugs: supplement_sugs
+      supplementSugs: supplement_sugs,
+      tagLabels: tagLabels,
     };
   },
   methods: {

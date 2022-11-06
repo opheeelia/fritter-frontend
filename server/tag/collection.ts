@@ -32,6 +32,13 @@ class TagCollection {
   }
 
   /**
+   * Get all tag to freet mappings
+   */
+  static async findAllFreetTags(freetId: string): Promise<Array<HydratedDocument<Tag>>> {
+    return await TagModel.find({freetId});
+  }
+
+  /**
    * Get the top X most popular labels sorted
    */
   static async findAllLabels(prefix: string): Promise<Array<HydratedDocument<Tag>>> {

@@ -16,6 +16,7 @@ export default {
       fields: [
         {id: 'intent', label: 'Intent', value: 'Share', defaultVal: 'Share', options: ['Share', 'Joke', 'Inform']},
         {id: 'supplement', label: 'Supplemental Link', value: '', defaultVal: ''},
+        {id: 'tagLabels', label: 'Tags', value: '', defaultVal: ''},
         {id: 'content', label: 'Content', value: '', defaultVal: ''},
       ],
       title: 'Create a freet',
@@ -42,7 +43,10 @@ export default {
       if (this.hasBody) {
         options.body = JSON.stringify(Object.fromEntries(
           this.fields.map(field => {
-            const {id, value} = field;
+            var {id, value} = field;
+            if (id == 'tagLabels') {
+              value = value.split(",");
+            }
             field.value = field.defaultVal;
             return [id, value];
           })
@@ -60,6 +64,15 @@ export default {
           var res = await r.json();
           const freetId = res.freet._id;
           r = await fetch(`/api/intent/${freetId}`, options);
+          if (!r.ok) {
+            res = await r.json();
+            options.method = 'DELETE';
+            r = await fetch(`/api/freets/${freetId}`, options);
+            throw new Error(res.error);
+          }
+
+          // Create tags
+          r = await fetch(`/api/tags/${freetId}`, options);
           if (!r.ok) {
             res = await r.json();
             options.method = 'DELETE';
