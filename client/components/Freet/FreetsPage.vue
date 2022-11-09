@@ -30,7 +30,7 @@
               by @{{ $store.state.filter.value }}
             </span>
             <span v-else-if="$store.state.filter.type === 'filter'">
-              by @{{ $store.state.filter.name }}
+              filtered by {{ $store.state.filter.name }}
             </span>
           </h2>
         </div>

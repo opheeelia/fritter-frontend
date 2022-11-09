@@ -17,7 +17,6 @@
         <div
         v-else-if="field.id === 'public'"
         >
-        {{field.value}}
         <label class="switch">
           <input
             type="checkbox"
@@ -287,11 +286,11 @@ textarea {
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #769c7b;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #769c7b;
 }
 
 input:checked + .slider:before {

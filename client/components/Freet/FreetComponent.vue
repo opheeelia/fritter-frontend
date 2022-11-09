@@ -9,7 +9,42 @@
       <h3 class="author">
         @{{ freet.author }}
       </h3>
-      <div
+      <div class="info">
+        <p>
+          Posted at {{ freet.dateModified }}
+          <i v-if="freet.edited">(edited)</i>
+        </p>
+        <div class="trait">Intent: {{freet.intent[0].intent}}</div>
+        <div class="trait" v-if="tagLabels.length > 0">Tags:
+          <span v-for="tag in tagLabels">{{tag}}, </span>
+        </div>
+        <div class="trait" v-if="freet.intent[0].intent === 'Inform'">Supplement: <a :href=freet.intent[0].supplement>{{freet.intent[0].supplement}}</a></div>
+        <div class="trait suggested" v-if="intentSugs.length > 0">Suggested intents:
+           <span v-for="intent in intentSugs">{{intent}}, </span>
+        </div>
+        <div class="trait suggested" v-if="supplementSugs.length > 0">Suggested supplements:
+          <span v-for="sup in supplementSugs">
+            <a :href=sup>{{sup}}</a>, 
+          </span>
+        </div>
+        <div class="trait suggested" v-if="tagSugs.length > 0">Suggested tags:
+          <span v-for="tag in tagSugs">{{tag}}, </span>
+        </div>
+      </div>
+    </header>
+    <textarea
+      v-if="editing"
+      class="content"
+      :value="draft"
+      @input="draft = $event.target.value"
+    />
+    <p
+      v-else
+      class="content"
+    >
+      {{ freet.content }}
+    </p>
+    <div
         v-if="$store.state.username === freet.author"
         class="actions"
       >
@@ -46,30 +81,6 @@
           :bodyProps="freet"
         />
       </div>
-      <div class="info">
-        <div>Intent: {{freet.intent[0].intent}}</div>
-        <div>Suggestions: {{tagSugs}}</div>
-        <div>Suggestions: {{intentSugs}}</div>
-        <div>Suggestions: {{supplementSugs}}</div>
-        <div>Tags: {{tagLabels}}</div>
-      </div>
-    </header>
-    <textarea
-      v-if="editing"
-      class="content"
-      :value="draft"
-      @input="draft = $event.target.value"
-    />
-    <p
-      v-else
-      class="content"
-    >
-      {{ freet.content }}
-    </p>
-    <p class="info">
-      Posted at {{ freet.dateModified }}
-      <i v-if="freet.edited">(edited)</i>
-    </p>
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -227,5 +238,26 @@ export default {
     border: 1px solid #111;
     padding: 20px;
     position: relative;
+    border-radius: 0.3em;
+    margin: 2em 0em;
+}
+
+.info {
+  font-size: 0.8em;
+}
+
+.trait{
+  display: inline-block;
+  font-size: 0.8em;
+  margin: 0.5em;
+  padding: 0.5em;
+  border-style: solid;
+  border-color: rgba(51, 51, 51, 0.05);
+  border-radius: 0.5em;
+  background-color: rgba(6, 7, 6, 0.15);
+}
+
+.suggested{
+  background-color: #a6c6b1;
 }
 </style>
