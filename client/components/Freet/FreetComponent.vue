@@ -102,12 +102,12 @@ export default {
     const intent_sugs = [];
     const supplement_sugs = [];
     for (let sug of this.freet.suggestions) {
-      const content = sug._id.suggestion;
-      if (sug._id.suggestionType == "Tag"){
+      const content = sug.suggestion;
+      if (sug.suggestionType == "Tag"){
         tag_sugs.push(content);
-      } else if (sug._id.suggestionType == "Intent") {
+      } else if (sug.suggestionType == "Intent") {
         intent_sugs.push(content);
-      } else if (sug._id.suggestionType == "Supplement") {
+      } else if (sug.suggestionType == "Supplement") {
         supplement_sugs.push(content);
       }
     }
