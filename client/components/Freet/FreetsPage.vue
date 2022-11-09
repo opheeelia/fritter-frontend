@@ -26,8 +26,11 @@
         <div class="left">
           <h2>
             Viewing all freets
-            <span v-if="$store.state.filter.value">
+            <span v-if="$store.state.filter.type === 'username'">
               by @{{ $store.state.filter.value }}
+            </span>
+            <span v-else-if="$store.state.filter.type === 'filter'">
+              by @{{ $store.state.filter.name }}
             </span>
           </h2>
         </div>
@@ -41,7 +44,7 @@
         </div>
       </header>
       <section
-        v-if="$store.state.freets.length"
+        v-if="$store.state.freets && $store.state.freets.length"
       >
         <FreetComponent
           v-for="freet in $store.state.freets"

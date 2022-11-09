@@ -119,7 +119,7 @@ class FilterCollection {
     //   console.log(x);
     //   result.push(...(x.map((obj) => new Types.ObjectId(obj._id))))
     // })
-    var posts = await FreetModel.find({_id: {$in: result}}).sort({dateCreated: -1});
+    var posts = await FreetModel.find({_id: {$in: result}}).sort({dateCreated: -1}).populate('authorId');
     return posts;
   }
 

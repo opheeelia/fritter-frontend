@@ -85,6 +85,21 @@ router.delete(
 );
 
 /**
+ * Get user by username
+ *
+ * @name GET /api/users?prefix=prefix
+ *
+ */
+ router.get(
+  '/',
+  async (req: Request, res: Response) => {
+    const prefix = req.query.prefix ? req.query.prefix as string : "";
+    const users = await UserCollection.findAllByUsername(prefix);
+    res.status(200).json({users: users});
+  }
+);
+
+/**
  * Create a user account.
  *
  * @name POST /api/users

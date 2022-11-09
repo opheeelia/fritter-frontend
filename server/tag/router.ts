@@ -26,7 +26,7 @@ const router = express.Router();
 /**
  * Get most popular tags
  *
- * @name GET /api/tags/
+ * @name GET /api/tags
  *
  */
 router.get(

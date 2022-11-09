@@ -13,7 +13,7 @@
         v-for="filter in $store.state.customFilters"
         :key="filter.name"
         class="custom-filter"
-        @click="applyFilter(filter._id)"
+        @click="applyFilter(filter)"
       >
         {{filter.name}}
       </button>
@@ -34,10 +34,17 @@
 export default {
   name: 'Sidebar',
   methods: {
-    applyFilter(id){
-      console.log(id);
-      this.$store.commit('updateFilter', {type:'filter', value: id});
-      this.$store.commit('refreshFreets');
+    applyFilter(filter){
+      try {
+        this.$store.commit('updateFilter', {type:'filter', value: filter._id, name: filter.name});
+        this.$store.commit('refreshFreets');
+        if (this.$route.name != 'Home'){
+          this.$router.push({name: 'Home'}); // Goes to Home page after applying filter
+        }
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
     }
   }
 }

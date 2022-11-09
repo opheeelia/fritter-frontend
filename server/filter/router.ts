@@ -6,6 +6,7 @@ import UserCollection from '../user/collection';
 import * as filterValidator from './middleware';
 import * as userValidator from '../user/middleware';
 import * as util from './util';
+import * as freetUtil from '../freet/util';
 import {IntentType} from '../intent/util';
 
 const router = express.Router();
@@ -29,7 +30,8 @@ const router = express.Router();
   ],
   async (req: Request, res: Response) => {
     const freets = await FilterCollection.applyFilter(req.query.filterId as string, req.session.userId);
-    res.status(200).json({freets: freets});
+    const response = freets.map(freetUtil.constructFreetResponse);
+    res.status(200).json(response);
   }
 );
 
@@ -47,7 +49,8 @@ router.get(
   ],
   async (req: Request, res: Response) => {
     const filters = await FilterCollection.findByName(req.query.prefix as string, req.session.userId);
-    res.status(200).json({filters: filters});
+    const response = filters.map(util.constructFilterResponse);
+    res.status(200).json({filters: response});
   }
 );
 
@@ -65,7 +68,8 @@ router.get(
   ],
   async (req: Request, res: Response) => {
     const filters = await FilterCollection.findByUser(req.session.userId);
-    res.status(200).json({filters: filters});
+    const response = filters.map(util.constructFilterResponse);
+    res.status(200).json({filters: response});
   },
 );
 

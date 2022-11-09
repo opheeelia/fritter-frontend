@@ -7,7 +7,7 @@ export default {
   name: 'GetFreetsForm',
   mixins: [InlineForm],
   data() {
-    return {value: this.$store.state.filter.value};
+    return {value: this.$store.state.filter.type === "username" ? this.$store.state.filter.value : ''};
   },
   methods: {
     async submit() {

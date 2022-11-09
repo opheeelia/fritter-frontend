@@ -24,6 +24,19 @@
           :value="field.value"
           @input="field.value = $event.target.value"
         />
+        <select
+          v-else-if="field.id === 'intent' && field.multiple === true"
+          :name="field.id"
+          v-model="field.value"
+          multiple
+        >
+          <option 
+              v-for="option in field.options"
+              :value="option"
+          >
+            {{option}}
+          </option>
+        </select>
         <select 
           v-else-if="field.id === 'intent'"
           :name="field.id"

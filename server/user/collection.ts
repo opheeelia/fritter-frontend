@@ -49,6 +49,16 @@ class UserCollection {
   /**
    * Find a user by username (case insensitive).
    *
+   * @param {string} prefix - The prefix of username of the user to find
+   * @return {Promise<HydratedDocument<User>> | Promise<null>} - The user with the given username, if any
+   */
+  static async findAllByUsername(prefix: string): Promise<Array<HydratedDocument<User>>> {
+    return await UserModel.aggregate([{$match: {username: {$regex: `${prefix}.*`}}}]);
+  }
+
+  /**
+   * Find a user by username (case insensitive).
+   *
    * @param {string} username - The username of the user to find
    * @param {string} password - The password of the user to find
    * @return {Promise<HydratedDocument<User>> | Promise<null>} - The user with the given username, if any
