@@ -5,6 +5,7 @@ import * as suggestionValidator from './middleware';
 import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
 import * as util from './util';
+import * as freetUtil from '../freet/util';
 
 const router = express.Router();
 
@@ -21,7 +22,8 @@ const router = express.Router();
       req.query.suggestion as string,
       req.query.type as util.SuggestionType,
     );
-    res.status(200).json({freets: freets});
+    const response = freets.map(freetUtil.constructFreetResponse);
+    res.status(200).json(response);
   }
 );
 
@@ -46,7 +48,7 @@ router.get(
     for (let suggestionType of Object.keys(util.SuggestionType)){
       labels.push(...(await SuggestionCollection.findAllByType(suggestionType, req.params.freetId)));
     }
-    res.status(200).json({suggestions: labels});
+    res.status(200).json(labels);
     return;
   },
   [
@@ -54,7 +56,7 @@ router.get(
   ],
   async (req: Request, res: Response) => {
     const suggestions = await SuggestionCollection.findAllByType(req.query.type as string, req.params.freetId);
-    res.status(200).json({suggestions: suggestions});
+    res.status(200).json(suggestions);
   }
 );
 
@@ -74,7 +76,8 @@ router.get(
   ],
   async (req: Request, res: Response) => {
     const suggestions = await SuggestionCollection.findAllBySuggestor(req.session.userId, req.params.freetId);
-    res.status(200).json({suggestions: suggestions});
+    const response = suggestions.map(util.constructSuggestionResponse);
+    res.status(200).json(response);
   },
 );
 

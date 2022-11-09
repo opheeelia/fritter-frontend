@@ -72,13 +72,13 @@ const store = new Vuex.Store({
         if (!r_suggestions.ok){
           throw new Error(res_suggestions.error);
         }
-        res[i].suggestions = res_suggestions.suggestions;
+        res[i].suggestions = res_suggestions;
         const r_tags = await fetch(`api/tags/${res[i]._id}`);
         const res_tags = await r_tags.json();
         if (!r_tags.ok){
           throw new Error(res_tags.error);
         }
-        res[i].tags = res_tags.tags;
+        res[i].tags = res_tags;
       }
       state.freets = res;
     },

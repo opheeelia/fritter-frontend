@@ -138,7 +138,6 @@ export default {
           // submit 
           try {
             const r = await fetch(field.url + `${field.text}`);
-            console.log(r);
             const res = await r.json();
             if (!r.ok) {
               throw new Error(res.error);
@@ -179,7 +178,7 @@ export default {
           if (id == "users") {
             include[0] = Object.keys(this.selectedUsers);
           } else if (id == "tagLabels") {
-            include[1] = value.split(",");
+            include[1] = value ? value.split(",") : [];
           } else if (id == "intent") {
             include[2] = value
           } else if (id == "name" || id == "public"){
@@ -190,8 +189,8 @@ export default {
         body.include = include;
         options.body = JSON.stringify(body);
       }
-
       try {
+        console.log(options);
         var r = await fetch(this.url, options);
         if (!r.ok) {
           // If response is not okay, we throw an error and enter the catch block

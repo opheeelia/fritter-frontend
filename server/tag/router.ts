@@ -5,6 +5,7 @@ import * as tagValidator from './middleware';
 import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
 import * as util from './util';
+import * as freetUtil from '../freet/util';
 
 const router = express.Router();
 
@@ -19,7 +20,8 @@ const router = express.Router();
   '/view',
   async (req: Request, res: Response) => {
     const freets = await TagCollection.findFreetsLabeledBy(req.query.tag as string);
-    res.status(200).json({freets: freets});
+    const response = freets.map(freetUtil.constructFreetResponse);
+    res.status(200).json(response);
   }
 );
 
@@ -34,7 +36,8 @@ router.get(
   async (req: Request, res: Response) => {
     const prefix = req.query.prefix ? req.query.prefix as string : "";
     const labels = await TagCollection.findAllLabels(prefix);
-    res.status(200).json({tags: labels});
+    const response = labels.map(util.constructTagResponse);
+    res.status(200).json(response);
   }
 );
 
@@ -49,7 +52,8 @@ router.get(
   async (req: Request, res: Response) => {
     const freetId = req.params.freetId;
     const labels = await TagCollection.findAllFreetTags(freetId);
-    res.status(200).json({tags: labels});
+    const response = labels.map(util.constructTagResponse);
+    res.status(200).json(response);
   }
 );
 

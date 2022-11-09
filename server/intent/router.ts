@@ -5,6 +5,7 @@ import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
 import * as intentValidator from './middleware';
 import * as util from './util';
+import * as freetUtil from '../freet/util';
 
 const router = express.Router();
 
@@ -18,7 +19,8 @@ const router = express.Router();
   '/view',
   async (req: Request, res: Response) => {
     const freets = await IntentCollection.findFreetsWithIntent(req.query.intent as string);
-    res.status(200).json({freets: freets});
+    const response = freets.map(freetUtil.constructFreetResponse);
+    res.status(200).json(response);
   }
 );
 

@@ -90,11 +90,11 @@ router.post(
   async (req: Request, res: Response) => {
     // validate users
     for (let userId of req.body.include[0]){
-      const validFormat = Types.ObjectId.isValid(req.params.freetId);
+      const validFormat = Types.ObjectId.isValid(userId);
       const user = validFormat ? await UserCollection.findOneByUserId(userId) : '';
       if (!user) {
         res.status(404).json({
-          error: `Freet with freet ID ${req.params.freetId} does not exist.`
+          error: `User with user ID ${userId} does not exist.`
         });
         return;
       }
@@ -103,12 +103,12 @@ router.post(
     for (let tag of req.body.include[1]){
       const pattern = new RegExp("^[\\w]+$");
       if (!pattern.test(tag)) {
-          res.status(400).json({
+        res.status(400).json({
           error: {
-              invalidTag: 'Tags must contain only upper and lower case letters, or underscores and must be non-empty'
+            invalidTag: 'Tags must contain only upper and lower case letters, or underscores and must be non-empty'
           }
-          });
-          return;
+        });
+        return;
       }
     }
     // validate intents

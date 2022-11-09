@@ -40,7 +40,6 @@
 
 export default {
   name: 'filterComponent',
-  components: {},
   props: {
     // Data from the stored filter
     filter: {
@@ -66,21 +65,23 @@ export default {
           });
         }
       };
-      // delete associated intention
       const options = {
         method: params.method, headers: {'Content-Type': 'application/json'}
       };
       try {
-        const r = await fetch(`/api/intent/${this.filter._id}`, options);
+        const r = await fetch(`/api/filters/${this.filter._id}`, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
         }
+
+        this.$store.commit('refreshCustomFilters');
+
+        params.callback();
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
-      this.request(params);
     },
   }
 };
