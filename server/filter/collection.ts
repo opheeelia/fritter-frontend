@@ -88,10 +88,9 @@ class FilterCollection {
    * Apply filter to posts, sort by most recent. 
    * 
    * @param {string?} filterId - Filter id
-   * @param {string?} userId - User id
    * @return {Promise<HydratedDocument<Freet>> | Promise<null>} - The filter if exists
    */
-  static async applyFilter(filterId: string | Types.ObjectId, userId: string | Types.ObjectId): Promise<Array<HydratedDocument<Freet>>> {
+  static async applyFilter(filterId: string | Types.ObjectId): Promise<Array<HydratedDocument<Freet>>> {
     const filter = await FilterModel.findOne({_id: filterId});
     var result: Types.ObjectId[] = [];
     // get users
@@ -119,7 +118,8 @@ class FilterCollection {
     //   console.log(x);
     //   result.push(...(x.map((obj) => new Types.ObjectId(obj._id))))
     // })
-    var posts = await FreetModel.find({_id: {$in: result}}).sort({dateCreated: -1}).populate('authorId');
+    var posts = await FreetModel.find({_id: {$in: result}}).sort({dateCreated: -1});
+    await Promise.all(posts.map(FreetCollection.populateFreet));
     return posts;
   }
 

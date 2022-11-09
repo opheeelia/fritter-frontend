@@ -68,7 +68,6 @@ class FreetCollection {
    */
   static async findAll(): Promise<Array<HydratedDocument<Freet>>> {
     // Retrieves freets and sorts them from most to least recent
-    // return FreetModel.find({}).sort({dateModified: -1}).populate('authorId');
     const freets = await FreetModel.find({}).sort({dateModified: -1});
     await Promise.all(freets.map(this.populateFreet));
     return freets;

@@ -29,7 +29,7 @@ const router = express.Router();
     filterValidator.isValidFilterViewer
   ],
   async (req: Request, res: Response) => {
-    const freets = await FilterCollection.applyFilter(req.query.filterId as string, req.session.userId);
+    const freets = await FilterCollection.applyFilter(req.query.filterId as string);
     const response = freets.map(freetUtil.constructFreetResponse);
     res.status(200).json(response);
   }

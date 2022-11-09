@@ -45,7 +45,7 @@ export default {
           this.fields.map(field => {
             var {id, value} = field;
             if (id == 'tagLabels') {
-              value = value.split(",");
+              value = value ? value.split(",") : [];
             }
             field.value = field.defaultVal;
             return [id, value];
