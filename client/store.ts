@@ -60,26 +60,26 @@ const store = new Vuex.Store({
       } 
       const res = await fetch(url).then(async r => r.json()).catch((e) => {throw new Error(e);});
       console.log(res);
-      for (let i in res){
-        const r_intent = await fetch(`/api/intent/${res[i]._id}`);
-        const res_intent = await r_intent.json();
-        if (!r_intent.ok) {
-          throw new Error(res_intent.error);
-        }
-        res[i].intent = res_intent;
-        const r_suggestions = await fetch(`api/suggestions/${res[i]._id}`);
-        const res_suggestions = await r_suggestions.json();
-        if (!r_suggestions.ok){
-          throw new Error(res_suggestions.error);
-        }
-        res[i].suggestions = res_suggestions;
-        const r_tags = await fetch(`api/tags/${res[i]._id}`);
-        const res_tags = await r_tags.json();
-        if (!r_tags.ok){
-          throw new Error(res_tags.error);
-        }
-        res[i].tags = res_tags;
-      }
+      // for (let i in res){
+      //   const r_intent = await fetch(`/api/intent/${res[i]._id}`);
+      //   const res_intent = await r_intent.json();
+      //   if (!r_intent.ok) {
+      //     throw new Error(res_intent.error);
+      //   }
+      //   res[i].intent = res_intent;
+      //   const r_suggestions = await fetch(`api/suggestions/${res[i]._id}`);
+      //   const res_suggestions = await r_suggestions.json();
+      //   if (!r_suggestions.ok){
+      //     throw new Error(res_suggestions.error);
+      //   }
+      //   res[i].suggestions = res_suggestions;
+      //   const r_tags = await fetch(`api/tags/${res[i]._id}`);
+      //   const res_tags = await r_tags.json();
+      //   if (!r_tags.ok){
+      //     throw new Error(res_tags.error);
+      //   }
+      //   res[i].tags = res_tags;
+      // }
       state.freets = res;
     },
     async refreshCustomFilters(state){

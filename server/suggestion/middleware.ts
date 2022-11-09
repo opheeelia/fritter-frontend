@@ -62,9 +62,7 @@ const isValidSuggestion = (req: Request, res: Response, next: NextFunction) => {
             '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
             if (!(pattern.test(req.body.suggestion))) {
                 res.status(400).json({
-                    error: {
-                        invalidSuggestion: 'Supplement must be a valid link.'
-                    }
+                    error: 'Supplement must be a valid link.'
                   });
                   return;
             }

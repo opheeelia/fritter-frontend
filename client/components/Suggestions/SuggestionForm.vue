@@ -25,7 +25,7 @@ export default {
         {id: 'tag', label: 'Additional Tags', value: '', defaultVal: ''},
       ],
       title: 'Make a suggestion',
-      refreshFreets: false,
+      refreshFreets: true,
       alerts: {}, // Displays success/error messages encountered during form submission
       callback: () => {
         const message = 'Successfully made a suggestion';
@@ -71,6 +71,7 @@ export default {
             } catch (e) {
               this.$set(this.alerts, e, 'error');
               setTimeout(() => this.$delete(this.alerts, e), 3000);
+              return;
             }
           }
         }

@@ -9,9 +9,7 @@ const areTagsNew = async (req: Request, res: Response, next: NextFunction) => {
         const tag = await TagCollection.findOne(tagLabel, req.params.freetId);
         if (tag) {
             res.status(400).json({
-            error: {
-                tagAlreadyxists: `Tag ${tagLabel} with freet ID ${req.params.freetId} already exists.`
-            }
+                error: `Tag ${tagLabel} with freet ID ${req.params.freetId} already exists.`
             });
             return;
         }
@@ -27,9 +25,7 @@ const areValidTags = (req: Request, res: Response, next: NextFunction) => {
         const pattern = new RegExp("^[\\w]+$");
         if (!pattern.test(tagLabel)) {
             res.status(400).json({
-            error: {
-                invalidTag: 'Tags must contain only upper and lower case letters, or underscores and must be non-empty'
-            }
+                error: 'Tags must contain only upper and lower case letters, or underscores and must be non-empty'
             });
             return;
         }

@@ -47,7 +47,7 @@
         />
       </div>
       <div class="info">
-        <div>Intent: {{freet.intent.intent}}</div>
+        <div>Intent: {{freet.intent[0].intent}}</div>
         <div>Suggestions: {{tagSugs}}</div>
         <div>Suggestions: {{intentSugs}}</div>
         <div>Suggestions: {{supplementSugs}}</div>
