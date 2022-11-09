@@ -61,6 +61,7 @@ class IntentCollection {
   static async findFreetsWithIntent(intent: string): Promise<Array<Freet>> {
     // Retrieves freets and sorts them from most to least recent
     const intents = await IntentModel.find({intent: intent as IntentType}).populate('freetId').sort({dateCreated: -1});
+    console.log(intents);
     return intents.map((intent) => {
       return intent.freetId as object as Freet;
     });

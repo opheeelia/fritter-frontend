@@ -8,6 +8,9 @@
       :key="field.id"
     >
       <label :for="field.id">{{ field.label }}:</label>
+      <div v-if="field.tooltip" class="tooltip">?
+        <span class="tooltiptext">{{field.tooltip}}</span>
+      </div>
       <input
         v-if="field.id === 'name'"
         :name="field.id"
@@ -33,31 +36,31 @@
           @keyup.enter="search(field.id)"
           @input="field.text = $event.target.value"
         />
-        <article class="user" v-for="user in searchedUsers">
-          <header>
-            <h3 class="name">
+        <div class="results">
+          <article class="user" v-for="user in searchedUsers">
+            <p class="name">
               {{ user.username }}
-            </h3>
+            </p>
             <div class="actions">
               <button type="button" @click="addUser(user)">
                 + Add
               </button>
             </div>
-          </header>
-        </article>
-        <h3> Selected Users</h3>
-        <article class="user" v-for="user in selectedUsers">
-          <header>
-            <h3 class="name">
+          </article>
+        </div>
+        <h3 v-if="selectedUsers.length > 0"> Selected Users</h3>
+        <div class="results">
+          <article class="user" v-for="user in selectedUsers">
+            <p class="name">
               {{ user.username }}
-            </h3>
+            </p>
             <div class="actions">
               <button type="button" @click="removeUser(user)">
                 🗑️ Remove
               </button>
             </div>
-          </header>
-        </article>
+          </article>
+        </div>
       </div>
       <input
         v-else-if="field.id === 'tagLabels'"
@@ -114,9 +117,9 @@ export default {
       fields: [
         {id: 'name', label: 'Filter Name', value: '', defaultVal: ''},
         {id: 'public', label: 'Public', value: true, defaultVal: true},
-        {id: 'users', label: 'Users', value: '', text: '', defaultVal: '', url: '/api/users?prefix='},
+        {id: 'users', label: 'Search for users', value: '', text: '', defaultVal: '', url: '/api/users?prefix='},
         {id: 'intent', label: 'Intents', value: [], defaultVal: [], options: ['Share', 'Joke', 'Inform'], multiple: true},
-        {id: 'tagLabels', label: 'Tags', value: '', defaultVal: ''},
+        {id: 'tagLabels', label: 'Tags', value: '', defaultVal: '', tooltip: 'Tag your freet with some keyword(s), separated by a comma.'},
       ],
       searchedUsers: {},
       selectedUsers: {},
@@ -141,6 +144,9 @@ export default {
             if (!r.ok) {
               throw new Error(res.error);
             } 
+            if (res.users.length == 0) {
+              throw new Error('No users found');
+            }
             for (let user of res.users){
               Vue.set(this.searchedUsers, user._id, user);
             }
@@ -177,7 +183,7 @@ export default {
           if (id == "users") {
             include[0] = Object.keys(this.selectedUsers);
           } else if (id == "tagLabels") {
-            include[1] = value ? value.split(",") : [];
+            include[1] = value ? value.split(",").map((x)=>x.replace(/\s/g, '')) : [];
           } else if (id == "intent") {
             include[2] = value
           } else if (id == "name" || id == "public"){
@@ -189,7 +195,6 @@ export default {
         options.body = JSON.stringify(body);
       }
       try {
-        console.log(options);
         var r = await fetch(this.url, options);
         if (!r.ok) {
           // If response is not okay, we throw an error and enter the catch block
@@ -220,6 +225,7 @@ form {
   justify-content: space-between;
   margin-bottom: 14px;
   position: relative;
+  border-radius: 0.2em;
 }
 
 div {
@@ -306,5 +312,46 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+/* Tooltip CSS from https://www.w3schools.com/css/css_tooltip.asp */
+/* Tooltip container */
+.tooltip {
+  background-color: gray;
+  color: white;
+  width: 1em;
+  text-align: center;
+  border-radius: 2em;
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.user {
+
+}
+
+.results {
+
 }
 </style>

@@ -88,6 +88,12 @@ router.post(
     userValidator.isUserLoggedIn,
   ],
   async (req: Request, res: Response) => {
+    if (!req.body.name) {
+      res.status(404).json({
+        error: `Filter must have a name.`
+      });
+      return;
+    }
     // validate users
     for (let userId of req.body.include[0]){
       const validFormat = Types.ObjectId.isValid(userId);

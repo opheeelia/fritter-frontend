@@ -1,5 +1,6 @@
 <template>
   <main>
+    <h2>Filters</h2>
     <section v-if="$store.state.username">
       <CreateFilterForm />
       <header>

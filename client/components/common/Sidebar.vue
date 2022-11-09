@@ -1,9 +1,8 @@
 
 <template>
   <div id="sidebar">
-    <div>
+    <div v-if="$store.state.username">
       <router-link
-        v-if="$store.state.username"
         to="/filters"
       >
         Filters

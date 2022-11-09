@@ -166,7 +166,7 @@ export default {
         method: params.method, headers: {'Content-Type': 'application/json'}
       };
       try {
-        const r = await fetch(`/api/intent/${this.freet._id}`, options);
+        var r = await fetch(`/api/intent/${this.freet._id}`, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);

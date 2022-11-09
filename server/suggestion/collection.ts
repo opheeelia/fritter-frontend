@@ -91,6 +91,17 @@ class SuggestionCollection {
     return suggestion !== null;
   }
 
+  /**
+   * Delete a suggestion with given id.
+   *
+   * @param {string} freetId - The id of the freet to delete suggestions of 
+   * @return {Promise<Boolean>} - true if the suggestion has been deleted, false otherwise
+   */
+   static async deleteAll(freetId: Types.ObjectId | string): Promise<boolean> {
+    const suggestion = await SuggestionModel.deleteMany({freetId: freetId});
+    return suggestion !== null;
+  }
+
 
   /**
    * Get all the freets in with the suggestion

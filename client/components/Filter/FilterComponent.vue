@@ -90,7 +90,10 @@ export default {
 <style scoped>
 .filter {
     border: 1px solid #111;
-    padding: 20px;
+    padding: 1em;
+    margin: 1em 0em;
     position: relative;
+    border-radius: 0.3em;
+    background-color: #769c7b;
 }
 </style>
