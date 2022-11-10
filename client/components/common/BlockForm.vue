@@ -11,15 +11,19 @@
         v-for="field in fields"
         :key="field.id"
       >
-        <label :for="field.id">{{ field.label }}{{field.required ? '*':''}}:</label>
-        <div v-if="field.tooltip" class="tooltip">?
-          <span class="tooltiptext">{{field.tooltip}}</span>
-        </div>
+        <label :for="field.id">
+          {{ field.label }}{{field.required ? '*':''}}
+          <div v-if="field.tooltip" class="tooltip">?
+            <span class="tooltiptext">{{field.tooltip}}</span>
+          </div>
+          :
+        </label>
         <textarea
           v-if="field.id === 'content'"
           :name="field.id"
           :value="field.value"
           @input="field.value = $event.target.value"
+          placeholder="Write your freet here..."
         />
         <input
           v-else-if="field.id === 'name'"

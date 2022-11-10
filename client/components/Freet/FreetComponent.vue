@@ -253,6 +253,7 @@ export default {
 }
 
 .suggested{
-  background-color: #a6c6b1;
+  border-color: #a6c6b1;
+  background-color: transparent;
 }
 </style>

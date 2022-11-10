@@ -9,21 +9,33 @@
       <h3 class="name">
         {{ filter.name }}
       </h3>
-      <div class="actions">
-        <button @click="deletefilter">
-          🗑️ Delete
-        </button>
-      </div>
     </header>
     <p class="info">
-      {{ filter.include }}
+      Created at {{ filter.dateCreated }}
     </p>
     <p class="info">
       {{ filter.public ? "Public" : "Private" }}
     </p>
-    <p class="info">
-      Created at {{ filter.dateCreated }}
-    </p>
+    <h4>Users included in filter:</h4>
+    <div class="trait" v-if="filter.include[0].length > 0">
+      <span v-for="tag in filter.include[0]">{{tag}}, </span>
+    </div>
+    <div v-else>None</div>
+    <h4>Tags included in filter:</h4>
+    <div class="trait" v-if="filter.include[1].length > 0">
+      <span v-for="tag in filter.include[1]">{{tag}}, </span>
+    </div>
+    <div v-else>None</div>
+    <h4>Intents included in filter:</h4>
+    <div class="trait" v-if="filter.include[2].length > 0">
+      <span v-for="tag in filter.include[2]">{{tag}}, </span>
+    </div>
+    <div v-else>None</div>
+    <div class="actions">
+      <button @click="deletefilter">
+        🗑️ Delete
+      </button>
+    </div>
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -95,5 +107,8 @@ export default {
     position: relative;
     border-radius: 0.3em;
     background-color: #769c7b;
+}
+.info {
+  font-size: 0.8em;
 }
 </style>

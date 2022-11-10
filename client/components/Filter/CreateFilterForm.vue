@@ -123,7 +123,7 @@ export default {
         {id: 'name', label: 'Filter Name', value: '', defaultVal: '', required: true},
         {id: 'public', label: 'Public', value: true, defaultVal: true, required: true},
         {id: 'users', label: 'Search for users', value: '', defaultVal: '', url: '/api/users?prefix='},
-        {id: 'intent', label: 'Intents', value: [], defaultVal: [], options: ['Share', 'Joke', 'Inform'], multiple: true},
+        {id: 'intent', label: 'Intents', value: [], defaultVal: [], options: ['Share', 'Joke', 'Inform'], multiple: true, tooltip: 'You may select more than one by holding ctrl and selecting'},
         {id: 'tagLabels', label: 'Tags', value: '', defaultVal: '', tooltip: 'Tag your freet with some keyword(s), separated by a comma.'},
       ],
       searchedUsers: {},

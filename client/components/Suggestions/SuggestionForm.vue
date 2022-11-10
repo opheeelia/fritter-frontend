@@ -28,7 +28,6 @@ export default {
       refreshFreets: true,
       alerts: {}, // Displays success/error messages encountered during form submission
       callback: () => {
-        console.log("called")
         const message = 'Successfully made a suggestion';
         this.$set(this.alerts, message, 'success');
         setTimeout(() => this.$delete(this.alerts, message), 3000);
@@ -62,7 +61,6 @@ export default {
               }
       
               if (this.callback) {
-                console.log("callback")
                 this.callback();
               }
             } catch (e) {

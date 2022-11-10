@@ -69,6 +69,11 @@ export default {
 </script>
 
 <style scoped>
+
+button {
+  background-color: #a6c6b1;
+}
+
 .modal-mask {
     position: fixed;
     z-index: 9998;
