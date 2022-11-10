@@ -46,6 +46,8 @@
       <section
         v-if="$store.state.freets && $store.state.freets.length"
       >
+      <!-- <div v-for="f in $store.state.freets ">{{f}}</br></div> -->
+      
         <FreetComponent
           v-for="freet in $store.state.freets"
           :key="freet.id"
@@ -71,6 +73,13 @@ export default {
   components: {FreetComponent, GetFreetsForm, CreateFreetForm},
   mounted() {
     this.$refs.getFreetsForm.submit();
+  },
+  computed: {
+    x(){
+      console.log("page")
+      console.log(this.$store.state.freets);
+      return 5;
+    }
   }
 };
 </script>

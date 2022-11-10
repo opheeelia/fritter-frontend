@@ -71,7 +71,7 @@
         </button>
       </div>
       <div 
-        v-else
+        v-else-if="$store.state.username"
         class="actions"
       >
         <ModalWindow
@@ -109,30 +109,25 @@ export default {
     }
   },
   data() {
-    const tag_sugs = [];
-    const intent_sugs = [];
-    const supplement_sugs = [];
-    for (let sug of this.freet.suggestions) {
-      const content = sug.suggestion;
-      if (sug.suggestionType == "Tag"){
-        tag_sugs.push(content);
-      } else if (sug.suggestionType == "Intent") {
-        intent_sugs.push(content);
-      } else if (sug.suggestionType == "Supplement") {
-        supplement_sugs.push(content);
-      }
-    }
     const tagLabels = this.freet.tags.map((tag) => tag.tagLabel);
     return {
       editing: false, // Whether or not this freet is in edit mode
       draft: this.freet.content, // Potentially-new content for this freet
       alerts: {}, // Displays success/error messages encountered during freet modification
       SuggestionForm: SuggestionForm,
-      tagSugs: tag_sugs,
-      intentSugs: intent_sugs,
-      supplementSugs: supplement_sugs,
       tagLabels: tagLabels,
     };
+  },
+  computed: {
+    tagSugs(){
+      return this.freet.suggestions.filter((sug)=>sug.suggestionType == "Tag").map((sug)=>sug.suggestion)
+    },
+    intentSugs(){
+      return this.freet.suggestions.filter((sug)=>sug.suggestionType == "Intent").map((sug)=>sug.suggestion)
+    },
+    supplementSugs(){
+      return this.freet.suggestions.filter((sug)=>sug.suggestionType == "Supplement").map((sug)=>sug.suggestion)
+    }
   },
   methods: {
     startEditing() {
@@ -161,20 +156,20 @@ export default {
           });
         }
       };
-      // delete associated intention
-      const options = {
-        method: params.method, headers: {'Content-Type': 'application/json'}
-      };
-      try {
-        var r = await fetch(`/api/intent/${this.freet._id}`, options);
-        if (!r.ok) {
-          const res = await r.json();
-          throw new Error(res.error);
-        }
-      } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
-      }
+      // // delete associated intention
+      // const options = {
+      //   method: params.method, headers: {'Content-Type': 'application/json'}
+      // };
+      // try {
+      //   var r = await fetch(`/api/intent/${this.freet._id}`, options);
+      //   if (!r.ok) {
+      //     const res = await r.json();
+      //     throw new Error(res.error);
+      //   }
+      // } catch (e) {
+      //   this.$set(this.alerts, e, 'error');
+      //   setTimeout(() => this.$delete(this.alerts, e), 3000);
+      // }
       this.request(params);
     },
     submitEdit() {

@@ -14,10 +14,10 @@ export default {
       method: 'POST',
       hasBody: true,
       fields: [
-        {id: 'intent', label: 'Intent', value: 'Share', defaultVal: 'Share', options: ['Share', 'Joke', 'Inform']},
-        {id: 'supplement', label: 'Supplemental Link', value: '', defaultVal: ''},
+        {id: 'intent', label: 'Intent', value: 'Share', defaultVal: 'Share', options: ['Share', 'Joke', 'Inform'], required: true},
+        {id: 'supplement', label: 'Supplemental Link', value: '', defaultVal: '', tooltip: 'Link to external source to support your claim.'},
         {id: 'tagLabels', label: 'Tags', value: '', defaultVal: ''},
-        {id: 'content', label: 'Content', value: '', defaultVal: ''},
+        {id: 'content', label: 'Content', value: '', defaultVal: '', required: true},
       ],
       title: 'Create a freet',
       refreshFreets: true,
@@ -136,5 +136,38 @@ form h3 {
 textarea {
    font-family: inherit;
    font-size: inherit;
+}
+
+/* Tooltip CSS from https://www.w3schools.com/css/css_tooltip.asp */
+/* Tooltip container */
+.tooltip {
+  background-color: gray;
+  color: white;
+  width: 1em;
+  text-align: center;
+  border-radius: 2em;
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
 </style>

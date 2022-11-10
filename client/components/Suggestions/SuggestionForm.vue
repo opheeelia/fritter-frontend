@@ -28,6 +28,7 @@ export default {
       refreshFreets: true,
       alerts: {}, // Displays success/error messages encountered during form submission
       callback: () => {
+        console.log("called")
         const message = 'Successfully made a suggestion';
         this.$set(this.alerts, message, 'success');
         setTimeout(() => this.$delete(this.alerts, message), 3000);
@@ -52,7 +53,6 @@ export default {
               suggestionType: field.id.charAt(0).toUpperCase() + field.id.slice(1),
               suggestion: field.value,
             })
-            console.log(options.body);
             try {
               var r = await fetch(this.url, options);
               if (!r.ok) {
@@ -61,11 +61,8 @@ export default {
                 throw new Error(res.error);
               }
       
-              if (this.refreshFreets) {
-                this.$store.commit('refreshFreets');
-              }
-      
               if (this.callback) {
+                console.log("callback")
                 this.callback();
               }
             } catch (e) {
@@ -75,6 +72,10 @@ export default {
             }
           }
         }
+      }
+
+      if (this.refreshFreets) {
+        this.$store.commit('refreshFreets');
       }
 
       // close modal window

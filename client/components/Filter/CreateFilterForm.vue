@@ -1,5 +1,5 @@
 <!-- Form for creating filters -->
-
+<!-- 
 <template>
   <form @submit.prevent="submit">
     <h3>Create a filter</h3>
@@ -32,9 +32,9 @@
       <div v-else-if="field.id === 'users'">
         <textarea
           :name="field.id"
-          :value="field.text"
+          :value="field.value"
           @keyup.enter="search(field.id)"
-          @input="field.text = $event.target.value"
+          @input="field.value = $event.target.value"
         />
         <div class="results">
           <article class="user" v-for="user in searchedUsers">
@@ -48,9 +48,14 @@
             </div>
           </article>
         </div>
-        <h3 v-if="selectedUsers.length > 0"> Selected Users</h3>
+        <h4> Selected Users:</h4>
         <div class="results">
-          <article class="user" v-for="user in selectedUsers">
+          <p v-if="Object.keys(selectedUsers).length == 0">No users selected. Add a user by searching above.</p>
+          <article 
+            v-else
+            class="user"
+            v-for="user in selectedUsers"
+          >
             <p class="name">
               {{ user.username }}
             </p>
@@ -97,15 +102,15 @@
       </article>
     </section>
   </form>
-</template>
+</template> -->
 
 <script>
 import Vue from 'vue';
-// import BlockForm from '@/components/common/BlockForm.vue';
+import BlockForm from '@/components/common/BlockForm.vue';
 
 export default {
   name: 'CreateFilterForm',
-  // mixins: [BlockForm],
+  mixins: [BlockForm],
   data() {
     /**
      * Options for submitting this form.
@@ -115,9 +120,9 @@ export default {
       method: 'POST',
       hasBody: true,
       fields: [
-        {id: 'name', label: 'Filter Name', value: '', defaultVal: ''},
-        {id: 'public', label: 'Public', value: true, defaultVal: true},
-        {id: 'users', label: 'Search for users', value: '', text: '', defaultVal: '', url: '/api/users?prefix='},
+        {id: 'name', label: 'Filter Name', value: '', defaultVal: '', required: true},
+        {id: 'public', label: 'Public', value: true, defaultVal: true, required: true},
+        {id: 'users', label: 'Search for users', value: '', defaultVal: '', url: '/api/users?prefix='},
         {id: 'intent', label: 'Intents', value: [], defaultVal: [], options: ['Share', 'Joke', 'Inform'], multiple: true},
         {id: 'tagLabels', label: 'Tags', value: '', defaultVal: '', tooltip: 'Tag your freet with some keyword(s), separated by a comma.'},
       ],
@@ -134,38 +139,38 @@ export default {
     };
   },
   methods: {
-    async search(id){
-      for (let field of this.fields) {
-        if (field.id == id) {
-          // submit 
-          try {
-            const r = await fetch(field.url + `${field.text}`);
-            const res = await r.json();
-            if (!r.ok) {
-              throw new Error(res.error);
-            } 
-            if (res.users.length == 0) {
-              throw new Error('No users found');
-            }
-            for (let user of res.users){
-              Vue.set(this.searchedUsers, user._id, user);
-            }
-          } catch (e) {
-            this.$set(this.alerts, e, 'error');
-            setTimeout(() => this.$delete(this.alerts, e), 3000);
-          }
-          field.text = field.defaultVal;
-        }
-      }
-    },
-    removeUser(user){
-      Vue.delete(this.selectedUsers, user._id);
-      Vue.set(this.searchedUsers, user._id, user);
-    },
-    addUser(user){
-      Vue.delete(this.searchedUsers, user._id);
-      Vue.set(this.selectedUsers, user._id, user);
-    },
+    // async search(id){
+    //   for (let field of this.fields) {
+    //     if (field.id == id) {
+    //       // submit 
+    //       try {
+    //         const r = await fetch(field.url + `${field.value}`);
+    //         const res = await r.json();
+    //         if (!r.ok) {
+    //           throw new Error(res.error);
+    //         } 
+    //         if (res.users.length == 0) {
+    //           throw new Error('No users found');
+    //         }
+    //         for (let user of res.users){
+    //           Vue.set(this.searchedUsers, user._id, user);
+    //         }
+    //       } catch (e) {
+    //         this.$set(this.alerts, e, 'error');
+    //         setTimeout(() => this.$delete(this.alerts, e), 3000);
+    //       }
+    //       field.value = field.defaultVal;
+    //     }
+    //   }
+    // },
+    // removeUser(user){
+    //   Vue.delete(this.selectedUsers, user._id);
+    //   Vue.set(this.searchedUsers, user._id, user);
+    // },
+    // addUser(user){
+    //   Vue.delete(this.searchedUsers, user._id);
+    //   Vue.set(this.selectedUsers, user._id, user);
+    // },
     async submit() {
       /**
         * Submits a form with the specified options from data().
@@ -345,13 +350,5 @@ input:checked + .slider:before {
 /* Show the tooltip text when you mouse over the tooltip container */
 .tooltip:hover .tooltiptext {
   visibility: visible;
-}
-
-.user {
-
-}
-
-.results {
-
 }
 </style>
