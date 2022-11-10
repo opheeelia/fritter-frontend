@@ -7,7 +7,9 @@
     <div class="left">
       <img src="../../public/logo.svg">
       <h1 class="title">
-        Fritter
+        <router-link to="/">
+          Fritter
+        </router-link>
       </h1>
     </div>
     <div class="right">
@@ -42,7 +44,7 @@
 <style scoped>
 nav {
     padding: 1vw 2vw;
-    background-color: #ccc;
+    background-color: #769c7b;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -76,5 +78,10 @@ img {
 
 .alerts {
     width: 25%;
+}
+
+a {
+  color: black;
+  text-decoration: none;
 }
 </style>

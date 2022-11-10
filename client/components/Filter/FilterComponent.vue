@@ -16,7 +16,7 @@
     <p class="info">
       {{ filter.public ? "Public" : "Private" }}
     </p>
-    <h4>Users included in filter:</h4>
+    <h4>User IDs included in filter:</h4>
     <div class="trait" v-if="filter.include[0].length > 0">
       <span v-for="tag in filter.include[0]">{{tag}}, </span>
     </div>

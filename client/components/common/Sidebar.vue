@@ -52,15 +52,15 @@ export default {
 <style scoped>
 #sidebar {
     padding: 1vw 2vw;
-    background-color: #ccc;
+    background-color: rgba(204, 204, 204, 0.303);
     display: flex;
     height: 100vh;
-    min-width: 10em;
+    min-width: 12em;
     float: left;
     position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 0;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
 }
 
@@ -97,5 +97,10 @@ img {
 
 .alerts {
     width: 25%;
+}
+
+a {
+  color: black;
+  text-decoration: none;
 }
 </style>
