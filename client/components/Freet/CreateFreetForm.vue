@@ -14,9 +14,9 @@ export default {
       method: 'POST',
       hasBody: true,
       fields: [
-        {id: 'intent', label: 'Intent', value: 'Share', defaultVal: 'Share', options: ['Share', 'Joke', 'Inform'], required: true},
+        {id: 'intent', label: 'Intent', value: 'Share', defaultVal: 'Share', options: ['Share', 'Joke', 'Inform'], required: true, tooltip: 'What is the intention of your freet?'},
         {id: 'supplement', label: 'Supplemental Link', value: '', defaultVal: '', tooltip: 'Link to external source to support your claim.'},
-        {id: 'tagLabels', label: 'Tags', value: '', defaultVal: ''},
+        {id: 'tagLabels', label: 'Tags', value: '', defaultVal: '', tooltip: 'Any key words relevant to your freet, separated by a comma'},
         {id: 'content', label: 'Content', value: '', defaultVal: '', required: true},
       ],
       title: 'Create a freet',
